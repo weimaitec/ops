@@ -1,0 +1,4 @@
+fastapi
+uvicorn[standard]
+python-jenkins
+pydantic-settings
