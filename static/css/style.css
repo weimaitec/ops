@@ -1,0 +1,146 @@
+/* General styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dcdfe6;
+    padding: 0 2em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #303133;
+}
+
+main {
+    flex-grow: 1;
+    padding: 2em;
+    overflow-y: auto;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2em;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+section {
+    background: #fff;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #606266;
+    border-bottom: 1px solid #e4e7ed;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+
+/* Project List */
+#project-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#project-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8em 1em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#project-list li:hover {
+    background-color: #f5f7fa;
+}
+
+#project-list li.selected {
+    background-color: #e6f7ff;
+    font-weight: bold;
+}
+
+#project-list button {
+    background-color: #409eff;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#project-list button:hover {
+    background-color: #66b1ff;
+}
+
+/* Build Details */
+#build-history ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#build-history li {
+    padding: 0.7em 1em;
+    border-bottom: 1px solid #f0f2f5;
+    cursor: pointer;
+}
+
+#build-history li:last-child {
+    border-bottom: none;
+}
+
+#build-history li:hover {
+    background-color: #f5f7fa;
+}
+
+#build-history small {
+    display: block;
+    color: #909399;
+}
+
+/* Log Viewer */
+#log-viewer {
+    margin-top: 2em;
+}
+
+#log-viewer h3 {
+    font-size: 1.1em;
+    color: #303133;
+}
+
+#log-viewer pre {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 1em;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 500px;
+    overflow-y: auto;
+}

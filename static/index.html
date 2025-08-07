@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运维自动化发布平台</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>运维自动化发布平台</h1>
+        </header>
+
+        <main>
+            <div class="container">
+                <!-- Project List -->
+                <section id="project-list">
+                    <h2>项目列表</h2>
+                    <ul>
+                        <li v-for="project in projects" :key="project.id" @click="selectProject(project)">
+                            <span>{{ project.name }}</span>
+                            <div class="actions">
+                                <button @click.stop="triggerBuild(project)">构建</button>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Build History & Logs -->
+                <section id="build-details" v-if="selectedProject">
+                    <h2>{{ selectedProject.name }} - 构建历史</h2>
+
+                    <!-- Build History -->
+                    <div id="build-history">
+                        <ul>
+                            <li v-for="build in builds" :key="build.id" @click="showBuildLog(build)">
+                                <span>版本 #{{ build.number }} - {{ build.status }}</span>
+                                <small>{{ new Date(build.timestamp).toLocaleString() }} by {{ build.user }}</small>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Log Viewer -->
+                    <div id="log-viewer" v-if="currentLog">
+                        <h3>构建日志 #{{ currentBuild.number }}</h3>
+                        <pre>{{ currentLog }}</pre>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

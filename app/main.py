@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from app.jenkins_service.router import router as jenkins_router
 
 app = FastAPI(
@@ -7,8 +9,12 @@ app = FastAPI(
     version="1.0.0",
 )
 
-app.include_router(jenkins_router)
+# API routers
+app.include_router(jenkins_router, prefix="/api")
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Automated Ops Publishing Platform"}
+# Serve frontend
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/", include_in_schema=False)
+async def root():
+    return FileResponse('static/index.html')
