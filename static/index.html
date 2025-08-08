@@ -14,38 +14,50 @@
 
         <main>
             <div class="container">
+                <!-- Global Error Display -->
+                <div class="error-box" v-if="error">
+                    <p><strong>Error:</strong> {{ error }}</p>
+                    <button @click="error = null" class="close-btn">&times;</button>
+                </div>
+
                 <!-- Project List -->
                 <section id="project-list">
-                    <h2>项目列表</h2>
-                    <ul>
-                        <li v-for="project in projects" :key="project.id" @click="selectProject(project)">
+                    <h2>项目列表 <span v-if="isLoading.projects" class="loader"></span></h2>
+                    <ul v-if="!isLoading.projects && projects.length > 0">
+                        <li v-for="project in projects" :key="project.name" @click="selectProject(project)" :class="{ selected: selectedProject && selectedProject.name === project.name }">
                             <span>{{ project.name }}</span>
                             <div class="actions">
                                 <button @click.stop="triggerBuild(project)">构建</button>
                             </div>
                         </li>
                     </ul>
+                    <p v-if="!isLoading.projects && projects.length === 0">No projects found.</p>
                 </section>
 
                 <!-- Build History & Logs -->
                 <section id="build-details" v-if="selectedProject">
-                    <h2>{{ selectedProject.name }} - 构建历史</h2>
+                    <h2>{{ selectedProject.name }} - 构建历史 <span v-if="isLoading.builds" class="loader"></span></h2>
 
                     <!-- Build History -->
-                    <div id="build-history">
+                    <div id="build-history" v-if="!isLoading.builds && builds.length > 0">
                         <ul>
                             <li v-for="build in builds" :key="build.id" @click="showBuildLog(build)">
-                                <span>版本 #{{ build.number }} - {{ build.status }}</span>
-                                <small>{{ new Date(build.timestamp).toLocaleString() }} by {{ build.user }}</small>
+                                <span>版本 #{{ build.number }} - {{ build.result || 'IN_PROGRESS' }}</span>
+                                <small>{{ new Date(build.timestamp).toLocaleString() }}</small>
                             </li>
                         </ul>
                     </div>
+                     <p v-if="!isLoading.builds && builds.length === 0">No build history found for this project.</p>
 
                     <!-- Log Viewer -->
-                    <div id="log-viewer" v-if="currentLog">
-                        <h3>构建日志 #{{ currentBuild.number }}</h3>
-                        <pre>{{ currentLog }}</pre>
+                    <div id="log-viewer" v-if="currentBuild">
+                        <h3>构建日志 #{{ currentBuild.number }} <span v-if="isLoading.log" class="loader"></span></h3>
+                        <pre v-if="!isLoading.log">{{ currentLog }}</pre>
                     </div>
+                </section>
+                <section v-else>
+                    <h2>请从左侧选择一个项目</h2>
+                    <p>选择一个项目后，您将在这里看到它的构建历史和日志信息。</p>
                 </section>
             </div>
         </main>
